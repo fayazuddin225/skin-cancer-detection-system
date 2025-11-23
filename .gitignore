@@ -1,0 +1,30 @@
+# Dataset folders
+train/
+test/
+val/
+
+# Model files
+*.pkl
+*.h5
+*.pt
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE / Editor files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files (if any)
+.env
