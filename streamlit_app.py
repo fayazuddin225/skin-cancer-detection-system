@@ -10,6 +10,54 @@ import os
 from PIL import Image
 import tensorflow as tf
 from tensorflow.keras.applications.inception_v3 import InceptionV3, preprocess_input
+
+# ---------------------------------------------------
+# Custom CSS for a premium look (dark mode, gradient, glassmorphism)
+# ---------------------------------------------------
+def _add_custom_css():
+    st.markdown(
+        """
+        <style>
+        /* Gradient background */
+        .stApp {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #f0f0f0;
+        }
+        /* Glassmorphism card */
+        .card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        /* Buttons */
+        .stButton > button {
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .stButton > button:hover {
+            transform: scale(1.05);
+        }
+        /* File uploader */
+        .stFileUploader > div > div > input {
+            color: #fff;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# Call the CSS injection once
+_add_custom_css()
+
 from tensorflow.keras.preprocessing.image import img_to_array
 
 # -------------------------------------------------------------------
@@ -73,8 +121,15 @@ if uploaded_file is not None:
         prob = hybrid_model.predict_proba(features)[0]
         confidence = float(max(prob)) * 100
         label = "Malignant" if pred == 1 else "Benign"
-        st.success(f"**Result:** {label}")
-        st.info(f"Confidence: {confidence:.2f}%")
+        st.markdown(
+    f"""
+    <div class='card'>
+        <h3>Result: {label}</h3>
+        <p>Confidence: {confidence:.2f}%</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
     else:
         st.error("Models not loaded – cannot perform prediction.")
 else:
